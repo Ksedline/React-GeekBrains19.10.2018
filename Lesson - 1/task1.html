@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HomeWork</title>
+</head>
+<body>
+    <script>
+        function loop(times = 0, callback = null) {
+            if (times > 0 && callback && typeof callback === 'function') {
+                for (let i = 0; i !== times; i++) {
+                    callback(i + 1);
+                }                
+            }
+        }
+
+        loop(5, i => {
+            console.log(`Loop ${i} time(s)`);
+        });
+    </script>
+</body>
+</html>

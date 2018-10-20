@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HomeWork</title>
+</head>
+
+<body>
+    <script>
+/*
+    Написать функцию calculateArea, которая будет принимать параметры, для вычисления площади 
+    (можете выбрать какую то конкретную фигуру, а можете, основываясь на переданных параметрах, 
+    выполнять требуемый алгоритм вычисления площади для переданной в параметрах фигуры) и 
+    возвращать объект вида: { area, figure, input }, 
+    где area - вычисленная площадь, 
+    figure - название фигуры, для которой вычислялась площадь, 
+    input - входные параметры, по которым было произведено вычисление.
+*/
+        function calculateArea(figure, a, b, c, d) {
+            let object = {
+                area: 0,
+                figure: figure,
+                input: {
+                    a: a,
+                    b: b,
+                    c: c,
+                    d: d,
+                }
+            };
+
+            if (!object.input.a) {
+                delete object.input.a;
+            }
+
+            if (!object.input.b) {
+                delete object.input.b;
+            }
+
+            if (!object.input.c) {
+                delete object.input.c;
+            }
+
+            if (!object.input.d) {
+                delete object.input.d;
+            }
+
+            switch (figure) {
+                case 'triangle': 
+                    const p = (a + b + c) / 2;
+                    object['area'] = Math.sqrt(p * ((p - a) * (p - b) * (p - c))).toFixed(2);
+                    break;
+                case 'rectangle':
+                    object['area'] = (a * b).toFixed(2);
+                    break;
+                case 'square':
+                    object['area'] = Math.pow(a, 2).toFixed(2);
+                    break;
+            }
+
+            return object;
+        }
+
+        console.log(calculateArea('triangle', 3, 5, 5));
+        console.log(calculateArea('rectangle', 3, 4, 3, 4));
+        console.log(calculateArea('square', 5, 5, 5, 5));
+    </script>
+</body>
+
+</html>
