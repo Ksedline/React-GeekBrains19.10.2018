@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HomeWork</title>
+</head>
+
+<body>
+    <script>
+        class Human {
+            constructor(name, age, dateOfBirth) {
+                this.name = name;
+                this.age = age;
+                this.dateOfBirth = dateOfBirth;
+            }
+
+            displayInfo() {
+                console.log({
+                    name: this.name,
+                    age: this.age,
+                    dateOfBirth: this.dateOfBirth
+                });
+            }
+        }
+
+        class Employee extends Human {
+            constructor(name, age, dateOfBirth, salary, department) {
+                super(name, age, dateOfBirth);
+                this.salary = salary;
+                this.department = department;
+            }
+
+            displayInfo() {
+                /* Знаю про super.displayInfo(), но хотел сделать это эстетичнее */
+                console.log({
+                    name: this.name,
+                    age: this.age,
+                    dateOfBirth: this.dateOfBirth,
+                    salary: this.salary,
+                    department: this.department
+                });
+            }
+        }
+
+        class Developer extends Employee {
+            constructor(name, age, dateOfBirth, salary, department, manager) {
+                super(name, age, dateOfBirth, salary, department);
+                this.manager = manager;
+            }
+
+            changeManager(manager) {
+                this.manager = manager;
+            }
+
+            displayInfo() {
+                console.log({
+                    name: this.name,
+                    age: this.age,
+                    dateOfBirth: this.dateOfBirth,
+                    salary: this.salary,
+                    department: this.department,
+                    manager: this.manager
+                });
+            }
+        }
+
+        class Manager extends Employee {
+            constructor(name, age, dateOfBirth, salary, department, employees) {
+                super(name, age, dateOfBirth, salary, department);
+                this.employees = employees;
+            }
+
+            addEmployee(employee) {
+                this.employees.push(employee);
+            }
+
+            removeEployee(pos) {
+                this.employees.splice(pos);
+            }
+
+            displayInfo() {
+                console.log({
+                    name: this.name,
+                    age: this.age,
+                    dateOfBirth: this.dateOfBirth,
+                    salary: this.salary,
+                    department: this.department,
+                    employees: this.employees
+                });
+            }
+        }
+
+        const manager1 = new Manager('Василий', 43, '01.12.1978', 180000, 'ДИТ', []);
+        const manager2 = new Manager('Анна', 24, '17.04.1994', 120000, 'ДИТ', []);
+        const employee1 = new Developer('Зенона', 32, '03.12.1985', 150000, 'ДВТ', manager1);
+        const employee2 = new Developer('Евгений', 25, '03.12.1991', 150000, 'ДВА', manager2);
+
+        manager1.addEmployee(employee1);
+        manager2.addEmployee(employee2);
+        manager1.removeEployee(0);
+        manager2.addEmployee(employee1);
+        manager1.displayInfo();
+        employee2.changeManager(manager2);
+        employee2.displayInfo();
+        manager2.displayInfo();
+
+    </script>
+</body>
+
+</html>
