@@ -72,17 +72,26 @@
 
 	var _Users2 = _interopRequireDefault(_Users);
 
-	var _Blogs = __webpack_require__(275);
+	var _User = __webpack_require__(275);
+
+	var _User2 = _interopRequireDefault(_User);
+
+	var _Blog = __webpack_require__(300);
+
+	var _Blog2 = _interopRequireDefault(_Blog);
+
+	var _Blogs = __webpack_require__(276);
 
 	var _Blogs2 = _interopRequireDefault(_Blogs);
 
-	var _Comments = __webpack_require__(278);
+	var _Comments = __webpack_require__(279);
 
 	var _Comments2 = _interopRequireDefault(_Comments);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var app = document.getElementById('app');
+
 	_reactDom2.default.render(_react2.default.createElement(
 	    _reactRouter.Router,
 	    { history: _reactRouter.browserHistory },
@@ -90,9 +99,17 @@
 	        _reactRouter.Route,
 	        { path: '/', component: _Layout2.default },
 	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _Main2.default }),
-	        _react2.default.createElement(_reactRouter.Route, { path: 'blog', component: _Blogs2.default }),
+	        _react2.default.createElement(
+	            _reactRouter.Route,
+	            { path: 'posts', component: _Blogs2.default },
+	            _react2.default.createElement(_reactRouter.Route, { path: ':postId', component: _Blog2.default })
+	        ),
 	        _react2.default.createElement(_reactRouter.Route, { path: 'comments', component: _Comments2.default }),
-	        _react2.default.createElement(_reactRouter.Route, { path: 'users', component: _Users2.default }),
+	        _react2.default.createElement(
+	            _reactRouter.Route,
+	            { path: 'users', component: _Users2.default },
+	            _react2.default.createElement(_reactRouter.Route, { path: ':userId', component: _User2.default })
+	        ),
 	        _react2.default.createElement(_reactRouter.Route, { path: '*', component: _PageNotFound2.default })
 	    )
 	), app);
@@ -27210,7 +27227,7 @@
 	                    ),
 	                    _react2.default.createElement(
 	                        _MenuItem2.default,
-	                        { href: '/blog', active: this.isActive('/blog') },
+	                        { href: '/posts', active: this.isActive('/posts') },
 	                        '\u0411\u043B\u043E\u0433'
 	                    ),
 	                    _react2.default.createElement(
@@ -27540,7 +27557,13 @@
 	    _createClass(Users, [{
 	        key: 'render',
 	        value: function render() {
-	            return _react2.default.createElement(_UsersList2.default, null);
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                ' ',
+	                !this.props.children ? _react2.default.createElement(_UsersList2.default, null) : this.props.children,
+	                ' '
+	            );
 	        }
 	    }]);
 
@@ -29124,7 +29147,7 @@
 /* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -29136,6 +29159,8 @@
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(184);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29155,40 +29180,52 @@
 	    }
 
 	    _createClass(User, [{
-	        key: "render",
+	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                "div",
-	                { className: "panel panel-default" },
+	                'div',
+	                { className: 'panel panel-default' },
 	                _react2.default.createElement(
-	                    "div",
-	                    { className: "panel-heading" },
+	                    'div',
+	                    { className: 'panel-heading' },
 	                    _react2.default.createElement(
-	                        "h3",
+	                        'h3',
 	                        null,
-	                        this.props.username
+	                        _react2.default.createElement(
+	                            _reactRouter.Link,
+	                            { to: '/users/' + this.props.id },
+	                            this.props.username
+	                        )
 	                    )
 	                ),
 	                _react2.default.createElement(
-	                    "div",
-	                    { className: "panel-body" },
+	                    'div',
+	                    { className: 'panel-body' },
 	                    _react2.default.createElement(
-	                        "p",
+	                        'p',
 	                        null,
 	                        this.props.name
 	                    ),
 	                    _react2.default.createElement(
-	                        "p",
+	                        'p',
 	                        null,
-	                        this.props.email
+	                        _react2.default.createElement(
+	                            'a',
+	                            { href: this.props.email },
+	                            this.props.email
+	                        )
 	                    ),
 	                    _react2.default.createElement(
-	                        "p",
+	                        'p',
 	                        null,
-	                        this.props.website
+	                        _react2.default.createElement(
+	                            'a',
+	                            { href: this.props.website },
+	                            this.props.website
+	                        )
 	                    ),
 	                    _react2.default.createElement(
-	                        "p",
+	                        'p',
 	                        null,
 	                        this.props.phone
 	                    )
@@ -29219,7 +29256,74 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _BlogList = __webpack_require__(276);
+	var _axios = __webpack_require__(249);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _User = __webpack_require__(274);
+
+	var _User2 = _interopRequireDefault(_User);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var User = function (_React$Component) {
+	    _inherits(User, _React$Component);
+
+	    function User(props) {
+	        _classCallCheck(this, User);
+
+	        var _this = _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).call(this, props));
+
+	        _this.state = {
+	            user: null
+	        };
+
+	        _axios2.default.get('https://jsonplaceholder.typicode.com/users/' + _this.props.params.userId).then(function (response) {
+	            _this.setState({ user: response.data });
+	        });
+	        return _this;
+	    }
+
+	    _createClass(User, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                this.state.user && _react2.default.createElement(_User2.default, this.state.user)
+	            );
+	        }
+	    }]);
+
+	    return User;
+	}(_react2.default.Component);
+
+	exports.default = User;
+
+/***/ }),
+/* 276 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _BlogList = __webpack_require__(277);
 
 	var _BlogList2 = _interopRequireDefault(_BlogList);
 
@@ -29243,7 +29347,13 @@
 	    _createClass(Blogs, [{
 	        key: 'render',
 	        value: function render() {
-	            return _react2.default.createElement(_BlogList2.default, null);
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                ' ',
+	                !this.props.children ? _react2.default.createElement(_BlogList2.default, null) : this.props.children,
+	                ' '
+	            );
 	        }
 	    }]);
 
@@ -29253,7 +29363,7 @@
 	exports.default = Blogs;
 
 /***/ }),
-/* 276 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29275,7 +29385,7 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _Blog = __webpack_require__(277);
+	var _Blog = __webpack_require__(278);
 
 	var _Blog2 = _interopRequireDefault(_Blog);
 
@@ -29301,8 +29411,6 @@
 
 	        _axios2.default.get('https://jsonplaceholder.typicode.com/posts').then(function (response) {
 	            _this.setState({ posts: response.data });
-	        }).catch(function (e) {
-	            _this.setState({ posts: [{ title: 'Ошибка соединения', body: e }] });
 	        });
 	        return _this;
 	    }
@@ -29337,10 +29445,10 @@
 	exports.default = BlogList;
 
 /***/ }),
-/* 277 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -29352,6 +29460,8 @@
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(184);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29371,25 +29481,29 @@
 	    }
 
 	    _createClass(Blog, [{
-	        key: "render",
+	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                "div",
-	                { className: "panel panel-default" },
+	                'div',
+	                { className: 'panel panel-default' },
 	                _react2.default.createElement(
-	                    "div",
-	                    { className: "panel-heading" },
+	                    'div',
+	                    { className: 'panel-heading' },
 	                    _react2.default.createElement(
-	                        "h3",
+	                        'h3',
 	                        null,
-	                        this.props.title
+	                        _react2.default.createElement(
+	                            _reactRouter.Link,
+	                            { to: '/posts/' + this.props.id },
+	                            this.props.title
+	                        )
 	                    )
 	                ),
 	                _react2.default.createElement(
-	                    "div",
-	                    { className: "panel-body" },
+	                    'div',
+	                    { className: 'panel-body' },
 	                    _react2.default.createElement(
-	                        "p",
+	                        'p',
 	                        null,
 	                        this.props.body
 	                    )
@@ -29404,7 +29518,7 @@
 	exports.default = Blog;
 
 /***/ }),
-/* 278 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29420,7 +29534,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _CommentList = __webpack_require__(279);
+	var _CommentList = __webpack_require__(280);
 
 	var _CommentList2 = _interopRequireDefault(_CommentList);
 
@@ -29454,7 +29568,7 @@
 	exports.default = Comments;
 
 /***/ }),
-/* 279 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29476,7 +29590,7 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _Comment = __webpack_require__(280);
+	var _Comment = __webpack_require__(281);
 
 	var _Comment2 = _interopRequireDefault(_Comment);
 
@@ -29536,7 +29650,7 @@
 	exports.default = CommentList;
 
 /***/ }),
-/* 280 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29606,6 +29720,91 @@
 	}(_react2.default.Component);
 
 	exports.default = Comment;
+
+/***/ }),
+/* 282 */,
+/* 283 */,
+/* 284 */,
+/* 285 */,
+/* 286 */,
+/* 287 */,
+/* 288 */,
+/* 289 */,
+/* 290 */,
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _axios = __webpack_require__(249);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _Blog = __webpack_require__(278);
+
+	var _Blog2 = _interopRequireDefault(_Blog);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Blog = function (_React$Component) {
+	    _inherits(Blog, _React$Component);
+
+	    function Blog(props) {
+	        _classCallCheck(this, Blog);
+
+	        var _this = _possibleConstructorReturn(this, (Blog.__proto__ || Object.getPrototypeOf(Blog)).call(this, props));
+
+	        _this.state = {
+	            post: null
+	        };
+
+	        _axios2.default.get('https://jsonplaceholder.typicode.com/posts/' + _this.props.params.postId).then(function (response) {
+	            _this.setState({ post: response.data });
+	        });
+	        return _this;
+	    }
+
+	    _createClass(Blog, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                this.state.post && _react2.default.createElement(_Blog2.default, this.state.post)
+	            );
+	        }
+	    }]);
+
+	    return Blog;
+	}(_react2.default.Component);
+
+	exports.default = Blog;
 
 /***/ })
 /******/ ]);
