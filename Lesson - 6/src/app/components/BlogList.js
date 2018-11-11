@@ -12,10 +12,8 @@ export default class BlogList extends React.Component {
 
         axios.get('https://jsonplaceholder.typicode.com/posts')
             .then((response) => {
-                this.setState({posts: response.data});      
-        }).catch((e) => {
-            this.setState({posts: [{title: 'Ошибка соединения', body: e}]});
-        });
+                this.setState({posts: response.data});
+            });
     }
 
     render() {
@@ -28,8 +26,8 @@ export default class BlogList extends React.Component {
         });
 
         return (<div>
-                    <h1>Блог</h1>
-                    {posts}
-                </div>);
+            <h1>Блог</h1>
+            {posts}
+        </div>);
     }
 }
